@@ -1,0 +1,23 @@
+{
+  "name": "cyhreact",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HoweChen/CYHReact.git"
+  },
+  "author": "Howe Chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HoweChen/CYHReact/issues"
+  },
+  "homepage": "https://github.com/HoweChen/CYHReact#readme",
+  "dependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1"
+  }
+}
