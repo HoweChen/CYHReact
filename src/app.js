@@ -5,12 +5,12 @@ console.log("App.js is running!");
 console.log("====================================");
 
 // JSX - Javascript XML
-var Title = {
+let Title = {
   name: "This is JSX from app.js",
   subTitle: "Here are some info",
   item: ["Item 1", "Item 2"]
 };
-var template = (
+let template = (
   <div>
     <h1>{Title.name}</h1>
     {Title.subTitle && <p>{Title.subTitle}</p>}
@@ -26,12 +26,12 @@ var template = (
   </div>
 );
 
-var User = {
+let User = {
   userName: "Howe Chen",
   userAge: "27",
   userLocation: "Macau City"
 };
-var templateTwo = (
+let templateTwo = (
   <div>
     <h1>{(User.userName ? User.userName : "Anonymous") + " is here!"}</h1>
     {User.userAge && User.userAge >= 18 && <p>Age: {User.userAge}</p>}
@@ -44,8 +44,8 @@ function getLocation(location) {
     return <p>Location: {location}</p>;
   }
 }
-var todoAppRoot = document.getElementById("todoApp");
-var personInfoRoot = document.getElementById("personInfo");
+let todoAppRoot = document.getElementById("todoApp");
+let personInfoRoot = document.getElementById("personInfo");
 
 ReactDOM.render(template, todoAppRoot);
 ReactDOM.render(templateTwo, personInfoRoot);
