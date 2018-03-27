@@ -3,13 +3,13 @@
 console.log("====================================");
 console.log("App.js is running!");
 console.log("====================================");
-
 // JSX - Javascript XML
 let Title = {
   name: "This is JSX from app.js",
   subTitle: "Here are some info",
   item: ["Item 1", "Item 2"]
 };
+
 let template = (
   <div>
     <h1>{Title.name}</h1>
@@ -39,11 +39,11 @@ let templateTwo = (
   </div>
 );
 
-function getLocation(location) {
+let getLocation = location => {
   if (location) {
     return <p>Location: {location}</p>;
   }
-}
+};
 let todoAppRoot = document.getElementById("todoApp");
 let personInfoRoot = document.getElementById("personInfo");
 
