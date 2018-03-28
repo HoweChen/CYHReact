@@ -77,9 +77,22 @@ const reset = () => {
   reRenderTemplateThree();
 };
 
+let detailInformation = {
+  info: "Hey. These are some details you can now see!",
+  isVisible: false
+};
+
+const visibilityToggle = () => {
+  detailInformation.isVisible === false
+    ? (detailInformation.isVisible = true)
+    : (detailInformation.isVisible = false);
+  renderTemplateFour();
+};
+
 const todoAppRoot = document.getElementById("todoApp");
 const personInfoRoot = document.getElementById("personInfo");
 const countInfoRoot = document.getElementById("countInfo");
+const invisibleAppRoot = document.getElementById("invisibleApp");
 
 ReactDOM.render(templateTwo, personInfoRoot);
 // ReactDOM.render(templateThree, countInfoRoot);
@@ -128,5 +141,22 @@ const reRenderTemplateThree = () => {
   );
   ReactDOM.render(templateThree, countInfoRoot);
 };
+
+const renderTemplateFour = () => {
+  const templateFour = (
+    <div>
+      <h1>Visibility Toggle</h1>
+      <button onClick={visibilityToggle}>
+        {detailInformation.isVisible === true ? "Hide" : "Show"} details
+      </button>
+      <p>
+        {detailInformation.isVisible === true ? detailInformation.info : ""}
+      </p>
+    </div>
+  );
+  ReactDOM.render(templateFour, invisibleAppRoot);
+};
+
 reRenderTemplateOne();
 reRenderTemplateThree();
+renderTemplateFour();

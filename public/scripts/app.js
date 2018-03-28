@@ -91,9 +91,20 @@ var reset = function reset() {
   reRenderTemplateThree();
 };
 
+var detailInformation = {
+  info: "Hey. These are some details you can now see!",
+  isVisible: false
+};
+
+var visibilityToggle = function visibilityToggle() {
+  detailInformation.isVisible === false ? detailInformation.isVisible = true : detailInformation.isVisible = false;
+  renderTemplateFour();
+};
+
 var todoAppRoot = document.getElementById("todoApp");
 var personInfoRoot = document.getElementById("personInfo");
 var countInfoRoot = document.getElementById("countInfo");
+var invisibleAppRoot = document.getElementById("invisibleApp");
 
 ReactDOM.render(templateTwo, personInfoRoot);
 // ReactDOM.render(templateThree, countInfoRoot);
@@ -190,5 +201,31 @@ var reRenderTemplateThree = function reRenderTemplateThree() {
   );
   ReactDOM.render(templateThree, countInfoRoot);
 };
+
+var renderTemplateFour = function renderTemplateFour() {
+  var templateFour = React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "h1",
+      null,
+      "Visibility Toggle"
+    ),
+    React.createElement(
+      "button",
+      { onClick: visibilityToggle },
+      detailInformation.isVisible === true ? "Hide" : "Show",
+      " details"
+    ),
+    React.createElement(
+      "p",
+      null,
+      detailInformation.isVisible === true ? detailInformation.info : ""
+    )
+  );
+  ReactDOM.render(templateFour, invisibleAppRoot);
+};
+
 reRenderTemplateOne();
 reRenderTemplateThree();
+renderTemplateFour();
