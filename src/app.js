@@ -92,9 +92,11 @@ const reRenderTemplateOne = () => {
       {/* if this items exist and its length >0 it would be shown otherwise it would not */}
       <p>You still have: {Title.items.length} job/jobs to do!</p>
       <button onClick={removeAllJobs}>Remove all the jobs</button>
+      <button disabled={Title.items.length === 0} onClick={makeDecision}>
+        Help me with the decision!
+      </button>
       {Title.items && Title.items.length > 0 ? (
         <div id="todos">
-          <button onClick={makeDecision}>Help me with the decision!</button>
           <ol>
             {Title.items.map(item => {
               return <li key={Title.items.indexOf(item)}>{item}</li>;

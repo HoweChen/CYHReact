@@ -124,14 +124,14 @@ var reRenderTemplateOne = function reRenderTemplateOne() {
       { onClick: removeAllJobs },
       "Remove all the jobs"
     ),
+    React.createElement(
+      "button",
+      { disabled: Title.items.length === 0, onClick: makeDecision },
+      "Help me with the decision!"
+    ),
     Title.items && Title.items.length > 0 ? React.createElement(
       "div",
       { id: "todos" },
-      React.createElement(
-        "button",
-        { onClick: makeDecision },
-        "Help me with the decision!"
-      ),
       React.createElement(
         "ol",
         null,
