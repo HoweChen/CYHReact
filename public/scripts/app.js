@@ -1,231 +1,49 @@
 "use strict";
 
-console.log("====================================");
-console.log("App.js is running!");
-console.log("====================================");
-// JSX - Javascript XML
-var Title = {
-  name: "This is JSX from app.js",
-  subTitle: "Here are some info",
-  items: []
-};
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var onFormSubmit = function onFormSubmit(event) {
-  event.preventDefault();
-  var option = event.target.elements.option.value;
-  console.log("====================================");
-  console.log("Form Submitted");
-  console.log(event);
-  console.log(option);
-  console.log("====================================");
-  if (option) {
-    Title.items.push(option);
-    event.target.elements.option.value = "";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Header = function (_React$Component) {
+  _inherits(Header, _React$Component);
+
+  function Header() {
+    _classCallCheck(this, Header);
+
+    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
   }
-  reRenderTemplateOne();
-};
-var makeDecision = function makeDecision() {
-  var decision = Math.floor(Math.random() * Title.items.length);
-  alert("You should do:" + (decision + 1) + ". " + Title.items[decision]);
-};
 
-var removeAllJobs = function removeAllJobs() {
-  // this is just to clear an array
-  Title.items.length = 0;
-  reRenderTemplateOne();
-};
+  _createClass(Header, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "p",
+          null,
+          "This is from Header"
+        )
+      );
+    }
+  }]);
 
-var User = {
-  userName: "Howe Chen",
-  userAge: "27",
-  userLocation: "Macau City"
-};
+  return Header;
+}(React.Component);
 
-var getLocation = function getLocation(location) {
-  if (location) {
-    return React.createElement(
-      "p",
-      null,
-      "Location: ",
-      location
-    );
-  }
-};
-var templateTwo = React.createElement(
+var jsx = React.createElement(
   "div",
   null,
   React.createElement(
     "h1",
     null,
-    (User.userName ? User.userName : "Anonymous") + " is here!"
+    "Header"
   ),
-  User.userAge && User.userAge >= 18 && React.createElement(
-    "p",
-    null,
-    "Age: ",
-    User.userAge
-  ),
-  getLocation(User.userLocation)
+  React.createElement(Header, null)
 );
 
-var count = 0;
-var addOne = function addOne() {
-  count += 1;
-  console.log("====================================");
-  console.log("After addition: " + count);
-  console.log("====================================");
-  reRenderTemplateThree();
-};
-var minusOne = function minusOne() {
-  count -= 1;
-  console.log("====================================");
-  console.log("After subtraction: " + count);
-  console.log("====================================");
-  reRenderTemplateThree();
-};
-var reset = function reset() {
-  count = 0;
-  console.log("====================================");
-  console.log("After reset: " + count);
-  console.log("====================================");
-  reRenderTemplateThree();
-};
-
-var detailInformation = {
-  info: "Hey. These are some details you can now see!",
-  isVisible: false
-};
-
-var visibilityToggle = function visibilityToggle() {
-  detailInformation.isVisible === false ? detailInformation.isVisible = true : detailInformation.isVisible = false;
-  renderTemplateFour();
-};
-
-var todoAppRoot = document.getElementById("todoApp");
-var personInfoRoot = document.getElementById("personInfo");
-var countInfoRoot = document.getElementById("countInfo");
-var invisibleAppRoot = document.getElementById("invisibleApp");
-
-ReactDOM.render(templateTwo, personInfoRoot);
-// ReactDOM.render(templateThree, countInfoRoot);
-
-var reRenderTemplateOne = function reRenderTemplateOne() {
-  var template = React.createElement(
-    "div",
-    null,
-    React.createElement(
-      "h1",
-      null,
-      Title.name
-    ),
-    Title.subTitle && React.createElement(
-      "p",
-      null,
-      Title.subTitle
-    ),
-    React.createElement(
-      "p",
-      null,
-      "You still have: ",
-      Title.items.length,
-      " job/jobs to do!"
-    ),
-    React.createElement(
-      "button",
-      { onClick: removeAllJobs },
-      "Remove all the jobs"
-    ),
-    React.createElement(
-      "button",
-      { disabled: Title.items.length === 0, onClick: makeDecision },
-      "Help me with the decision!"
-    ),
-    Title.items && Title.items.length > 0 ? React.createElement(
-      "div",
-      { id: "todos" },
-      React.createElement(
-        "ol",
-        null,
-        Title.items.map(function (item) {
-          return React.createElement(
-            "li",
-            { key: Title.items.indexOf(item) },
-            item
-          );
-        })
-      )
-    ) : React.createElement(
-      "p",
-      null,
-      "You have no options"
-    ),
-    React.createElement(
-      "form",
-      { onSubmit: onFormSubmit },
-      React.createElement("input", { type: "text", name: "option" }),
-      React.createElement(
-        "button",
-        null,
-        "Add option"
-      )
-    )
-  );
-  ReactDOM.render(template, todoAppRoot);
-};
-
-var reRenderTemplateThree = function reRenderTemplateThree() {
-  var templateThree = React.createElement(
-    "div",
-    null,
-    React.createElement(
-      "h1",
-      null,
-      "Count: ",
-      count
-    ),
-    React.createElement(
-      "button",
-      { id: "button-id", className: "button", onClick: addOne },
-      "+1"
-    ),
-    React.createElement(
-      "button",
-      { onClick: minusOne },
-      "-1"
-    ),
-    React.createElement(
-      "button",
-      { onClick: reset },
-      "Reset"
-    )
-  );
-  ReactDOM.render(templateThree, countInfoRoot);
-};
-
-var renderTemplateFour = function renderTemplateFour() {
-  var templateFour = React.createElement(
-    "div",
-    null,
-    React.createElement(
-      "h1",
-      null,
-      "Visibility Toggle"
-    ),
-    React.createElement(
-      "button",
-      { onClick: visibilityToggle },
-      detailInformation.isVisible === true ? "Hide" : "Show",
-      " details"
-    ),
-    React.createElement(
-      "p",
-      null,
-      detailInformation.isVisible === true ? detailInformation.info : ""
-    )
-  );
-  ReactDOM.render(templateFour, invisibleAppRoot);
-};
-
-reRenderTemplateOne();
-reRenderTemplateThree();
-renderTemplateFour();
+ReactDOM.render(jsx, document.getElementById("app"));
