@@ -50,14 +50,6 @@ var ActionButton = function (_React$Component2) {
   }
 
   _createClass(ActionButton, [{
-    key: "handlePick",
-    value: function handlePick() {
-      // let decision = Math.floor(Math.random() * this.props.todos.length);
-      // alert("You should do:" + (decision + 1) + ". " +
-      //   this.props.todos[decision]);
-      alert("fuck you");
-    }
-  }, {
     key: "render",
     value: function render() {
       return React.createElement(
@@ -65,7 +57,10 @@ var ActionButton = function (_React$Component2) {
         null,
         React.createElement(
           "button",
-          { onClick: this.handlePick },
+          {
+            disabled: !this.props.hasOptions,
+            onClick: this.props.handlePick
+          },
           "What should I do?"
         )
       );
@@ -99,7 +94,13 @@ var Options = function (_React$Component3) {
             todo
           );
         })
-      );
+      )
+      // <div>
+      //   {this.props.todos.map(todo => {
+      //     return <p key={this.props.todos.indexOf(todo)}>{todo}</p>;
+      //   })}
+      // </div>
+      ;
     }
   }]);
 
@@ -109,21 +110,29 @@ var Options = function (_React$Component3) {
 var AddTodo = function (_React$Component4) {
   _inherits(AddTodo, _React$Component4);
 
-  function AddTodo() {
+  function AddTodo(props) {
     _classCallCheck(this, AddTodo);
 
-    return _possibleConstructorReturn(this, (AddTodo.__proto__ || Object.getPrototypeOf(AddTodo)).apply(this, arguments));
+    var _this5 = _possibleConstructorReturn(this, (AddTodo.__proto__ || Object.getPrototypeOf(AddTodo)).call(this, props));
+
+    _this5.onFormSubmit = _this5.onFormSubmit.bind(_this5);
+    _this5.state = {
+      error: undefined
+    };
+    return _this5;
   }
 
   _createClass(AddTodo, [{
     key: "onFormSubmit",
     value: function onFormSubmit(event) {
       event.preventDefault();
-      var job = event.target.elements.option.value;
-
-      if (job) {
-        alert(job);
-      }
+      var todo = event.target.elements.option.value.trim();
+      var error = this.props.handleAddTodos(todo);
+      this.setState(function () {
+        return {
+          error: error
+        };
+      });
     }
   }, {
     key: "render",
@@ -131,6 +140,11 @@ var AddTodo = function (_React$Component4) {
       return React.createElement(
         "div",
         null,
+        this.state.error && React.createElement(
+          "p",
+          null,
+          this.state.error
+        ),
         React.createElement(
           "form",
           { onSubmit: this.onFormSubmit },
@@ -156,25 +170,23 @@ var RemoveAllTodo = function (_React$Component5) {
 
     var _this6 = _possibleConstructorReturn(this, (RemoveAllTodo.__proto__ || Object.getPrototypeOf(RemoveAllTodo)).call(this, props));
 
-    _this6.removeAllTodo = _this6.removeAllTodo.bind(_this6);
-    _this6.state = {
-      todos: _this6.props.todos
-    };
+    _this6.handleDeleteTodos = _this6.handleDeleteTodos.bind(_this6);
     return _this6;
   }
 
   _createClass(RemoveAllTodo, [{
-    key: "removeAllTodo",
-    value: function removeAllTodo() {
-      this.setState({});
+    key: "handleDeleteTodos",
+    value: function handleDeleteTodos(e) {
+      // e.preventDefault();
+      this.props.handleDeleteTodos;
     }
   }, {
     key: "render",
     value: function render() {
       return React.createElement(
         "button",
-        { onClick: this.removeAllTodo },
-        "Remove all todos."
+        { onClick: this.handleDeleteTodos },
+        "Remove all todos"
       );
     }
   }]);
@@ -185,26 +197,75 @@ var RemoveAllTodo = function (_React$Component5) {
 var TodoApp = function (_React$Component6) {
   _inherits(TodoApp, _React$Component6);
 
-  function TodoApp() {
+  function TodoApp(props) {
     _classCallCheck(this, TodoApp);
 
-    return _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).apply(this, arguments));
+    var _this7 = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
+
+    _this7.handleDeleteTodos = _this7.handleAddTodos.bind(_this7);
+    _this7.handleAddTodos = _this7.handleAddTodos.bind(_this7);
+    _this7.handlePick = _this7.handlePick.bind(_this7);
+    _this7.state = {
+      title: "This is a todo app",
+      subTitle: "Hello there!",
+      todos: ["test1", "test2", "test3"]
+    };
+    return _this7;
   }
 
+  //handleDeleteTodos
+
+
   _createClass(TodoApp, [{
+    key: "handleDeleteTodos",
+    value: function handleDeleteTodos() {
+      console.log("here");
+      this.setState(function () {
+        return {
+          todos: []
+        };
+      });
+    }
+  }, {
+    key: "handleAddTodos",
+    value: function handleAddTodos(todo) {
+      if (!todo) {
+        alert("Please input something before adding!");
+        return "Enter invalid value.";
+      } else if (this.state.todos.indexOf(todo) != -1) {
+        return "This item is already in the todo list.";
+      } else {
+        this.setState(function (prevState) {
+          return {
+            todos: prevState.todos.concat([todo])
+          };
+        });
+      }
+    }
+  }, {
+    key: "handlePick",
+    value: function handlePick() {
+      var decision = Math.floor(Math.random() * this.state.todos.length);
+      alert("You should do:" + (decision + 1) + ". " + this.state.todos[decision]);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var title = "This is a todo app";
-      var subTitle = "Hello there!";
-      var todos = ["test1", "test2", "test3"];
       return React.createElement(
         "div",
         null,
-        React.createElement(Header, { title: title, subTitle: subTitle }),
-        React.createElement(ActionButton, { jobs: todos }),
-        React.createElement(AddTodo, null),
-        React.createElement(RemoveAllTodo, { todos: todos }),
-        React.createElement(Options, { todos: todos })
+        React.createElement(Header, { title: this.state.title, subTitle: this.state.subTitle }),
+        React.createElement(ActionButton, {
+          hasOptions: this.state.todos.length > 0,
+          todos: this.state.todos,
+          handlePick: this.handlePick
+        }),
+        React.createElement(Options, { todos: this.state.todos }),
+        React.createElement(AddTodo, {
+          handleAddTodos: this.handleAddTodos,
+          todos: this.state.todos
+        }),
+        React.createElement(RemoveAllTodo, { handleDeleteTodos: this.handleDeleteTodos })
       );
     }
   }]);
@@ -237,19 +298,11 @@ var InvisibleApp = function (_React$Component7) {
   _createClass(InvisibleApp, [{
     key: "buttonClick",
     value: function buttonClick() {
-      if (this.state.visibility === false) {
-        this.setState(function (prevState) {
-          return {
-            visibility: true
-          };
-        });
-      } else {
-        this.setState(function () {
-          return {
-            visibility: false
-          };
-        });
-      }
+      this.setState(function (prevState) {
+        return {
+          visibility: !prevState.visibility
+        };
+      });
     }
   }, {
     key: "render",
