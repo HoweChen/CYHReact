@@ -116,6 +116,16 @@ var AddTodo = function (_React$Component4) {
   }
 
   _createClass(AddTodo, [{
+    key: "onFormSubmit",
+    value: function onFormSubmit(event) {
+      event.preventDefault();
+      var job = event.target.elements.option.value;
+
+      if (job) {
+        alert(job);
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
@@ -123,8 +133,13 @@ var AddTodo = function (_React$Component4) {
         null,
         React.createElement(
           "form",
-          null,
-          "Please input some tasks."
+          { onSubmit: this.onFormSubmit },
+          React.createElement("input", { type: "text", name: "option" }),
+          React.createElement(
+            "button",
+            null,
+            "Add todo"
+          )
         )
       );
     }
@@ -136,16 +151,22 @@ var AddTodo = function (_React$Component4) {
 var RemoveAllTodo = function (_React$Component5) {
   _inherits(RemoveAllTodo, _React$Component5);
 
-  function RemoveAllTodo() {
+  function RemoveAllTodo(props) {
     _classCallCheck(this, RemoveAllTodo);
 
-    return _possibleConstructorReturn(this, (RemoveAllTodo.__proto__ || Object.getPrototypeOf(RemoveAllTodo)).apply(this, arguments));
+    var _this6 = _possibleConstructorReturn(this, (RemoveAllTodo.__proto__ || Object.getPrototypeOf(RemoveAllTodo)).call(this, props));
+
+    _this6.removeAllTodo = _this6.removeAllTodo.bind(_this6);
+    _this6.state = {
+      todos: _this6.props.todos
+    };
+    return _this6;
   }
 
   _createClass(RemoveAllTodo, [{
     key: "removeAllTodo",
     value: function removeAllTodo() {
-      alert("fuck you again!");
+      this.setState({});
     }
   }, {
     key: "render",
@@ -182,7 +203,7 @@ var TodoApp = function (_React$Component6) {
         React.createElement(Header, { title: title, subTitle: subTitle }),
         React.createElement(ActionButton, { jobs: todos }),
         React.createElement(AddTodo, null),
-        React.createElement(RemoveAllTodo, null),
+        React.createElement(RemoveAllTodo, { todos: todos }),
         React.createElement(Options, { todos: todos })
       );
     }
@@ -197,4 +218,69 @@ var jsx = React.createElement(
   React.createElement(TodoApp, null)
 );
 
+var InvisibleApp = function (_React$Component7) {
+  _inherits(InvisibleApp, _React$Component7);
+
+  function InvisibleApp(props) {
+    _classCallCheck(this, InvisibleApp);
+
+    var _this8 = _possibleConstructorReturn(this, (InvisibleApp.__proto__ || Object.getPrototypeOf(InvisibleApp)).call(this, props));
+
+    _this8.buttonClick = _this8.buttonClick.bind(_this8);
+    _this8.state = {
+      text: "Hello and fuck you",
+      visibility: false
+    };
+    return _this8;
+  }
+
+  _createClass(InvisibleApp, [{
+    key: "buttonClick",
+    value: function buttonClick() {
+      if (this.state.visibility === false) {
+        this.setState(function (prevState) {
+          return {
+            visibility: true
+          };
+        });
+      } else {
+        this.setState(function () {
+          return {
+            visibility: false
+          };
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var text = "Hello and fuck you";
+      var visibility = false;
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h1",
+          null,
+          "Invisible App"
+        ),
+        React.createElement(
+          "button",
+          { onClick: this.buttonClick },
+          this.state.visibility === true ? "Hide" : "Show",
+          " detail"
+        ),
+        React.createElement(
+          "h2",
+          null,
+          this.state.visibility === true ? this.state.text : ""
+        )
+      );
+    }
+  }]);
+
+  return InvisibleApp;
+}(React.Component);
+
 ReactDOM.render(jsx, document.getElementById("todoApp"));
+ReactDOM.render(React.createElement(InvisibleApp, null), document.getElementById("invisibleApp"));
