@@ -2,22 +2,25 @@ class TodoApp extends React.Component {
   constructor(props) {
     super(props);
     this.handleDeleteTodos = this.handleAddTodos.bind(this);
+    this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
     this.handleAddTodos = this.handleAddTodos.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.state = {
       title: "This is a todo app",
       subTitle: "Hello there!",
-      todos: ["test1", "test2", "test3"]
+      todos: props.todos
     };
   }
 
   //handleDeleteTodos
   handleDeleteTodos() {
-    this.setState(() => {
-      return {
-        todos: []
-      };
-    });
+    this.setState(() => ({ todos: [1, 2, 3] }));
+  }
+
+  handleDeleteTodo(todoToRemove) {
+    this.setState(prevState => ({
+      todos: prevState.todos.filter(todo => todoToRemove !== todo)
+    }));
   }
 
   handleAddTodos(todo) {
@@ -27,11 +30,7 @@ class TodoApp extends React.Component {
     } else if (this.state.todos.indexOf(todo) != -1) {
       return "This item is already in the todo list.";
     } else {
-      this.setState(prevState => {
-        return {
-          todos: prevState.todos.concat([todo])
-        };
-      });
+      this.setState(prevState => ({ todos: prevState.todos.concat([todo]) }));
     }
   }
 
@@ -48,13 +47,12 @@ class TodoApp extends React.Component {
         <Header title={this.state.title} subTitle={this.state.subTitle} />
         <ActionButton
           hasOptions={this.state.todos.length > 0}
-          todos={this.state.todos}
           handlePick={this.handlePick}
         />
 
-        <Options
+        <Todos
           todos={this.state.todos}
-          handleAddTodos={this.handleDeleteTodos}
+          handleDeleteTodo={this.handleDeleteTodo}
         />
         <AddTodo
           handleAddTodos={this.handleAddTodos}
@@ -66,43 +64,89 @@ class TodoApp extends React.Component {
   }
 }
 
-class Header extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>{this.props.title}</h1>
-        <h2>{this.props.subTitle}</h2>
-      </div>
-    );
-  }
-}
+TodoApp.defaultProps = {
+  todos: []
+};
 
-class ActionButton extends React.Component {
-  render() {
-    return (
-      <div>
-        <button
-          disabled={!this.props.hasOptions}
-          onClick={this.props.handlePick}
-        >
-          What should I do?
-        </button>
-      </div>
-    );
-  }
-}
+// class Header extends React.Component {
+//   render() {
+//     return (
+//       <div>
+//         <h1>{this.props.title}</h1>
+//         <h2>{this.props.subTitle}</h2>
+//       </div>
+//     );
+//   }
+// }
 
-class Options extends React.Component {
-  render() {
-    return (
-      <ol>
-        {this.props.todos.map((todo, index) => {
-          return <li key={index}>{todo}</li>;
-        })}
-      </ol>
-    );
-  }
-}
+// stateless functional component
+const Header = props => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+      {props.subTitle && <h2>{props.subTitle}</h2>}
+    </div>
+  );
+};
+
+// class ActionButton extends React.Component {
+//   render() {
+//     return (
+//       <div>
+//         <button
+//           disabled={!this.props.hasOptions}
+//           onClick={this.props.handlePick}
+//         >
+//           What should I do?
+//         </button>
+//       </div>
+//     );
+//   }
+// }
+
+// stateless functional component
+const ActionButton = props => {
+  return (
+    <div>
+      <button disabled={!props.hasOptions} onClick={props.handlePick}>
+        What should I do?
+      </button>
+    </div>
+  );
+};
+
+// class Options extends React.Component {
+//   render() {
+//     return (
+//       <ol>
+//         {this.props.todos.map((todo, index) => {
+//           return <li key={index}>{todo}</li>;
+//         })}
+//       </ol>
+//     );
+//   }
+// }
+
+const Todos = props => {
+  return (
+    <ol>
+      {props.todos.map((todo, index) => {
+        return (
+          <li key={index}>
+            {todo}
+            <button
+              onClick={e => {
+                props.handleDeleteTodo(todo);
+              }}
+            >
+              Remove
+            </button>
+          </li>
+        );
+      })}
+    </ol>
+  );
+};
 
 class AddTodo extends React.Component {
   constructor(props) {
@@ -117,11 +161,7 @@ class AddTodo extends React.Component {
     event.preventDefault();
     const todo = event.target.elements.option.value.trim();
     const error = this.props.handleAddTodos(todo);
-    this.setState(() => {
-      return {
-        error: error
-      };
-    });
+    this.setState(() => ({ error: error }));
   }
   render() {
     return (
@@ -136,18 +176,24 @@ class AddTodo extends React.Component {
   }
 }
 
-class RemoveAllTodo extends React.Component {
-  render() {
-    console.log(this.props);
-    return (
-      <button onClick={this.props.handleDeleteTodos}>Remove All Todos</button>
-    );
-  }
-}
+// class RemoveAllTodo extends React.Component {
+//   render() {
+//     console.log(this.props);
+//     return (
+//       <button onClick={this.props.handleDeleteTodos}>Remove All Todos</button>
+//     );
+//   }
+// }
+
+const RemoveAllTodo = props => {
+  console.log("In here!");
+  return <button onClick={props.handleDeleteTodos}>Remove All Todos</button>;
+};
 
 const jsx = (
   <div>
-    <TodoApp />
+    <TodoApp todos={["Test1", "Test2", "Test3"]} />
+    {/* <TodoApp /> */}
   </div>
 );
 
@@ -161,11 +207,7 @@ class InvisibleApp extends React.Component {
     };
   }
   buttonClick() {
-    this.setState(prevState => {
-      return {
-        visibility: !prevState.visibility
-      };
-    });
+    this.setState(prevState => ({ visibility: !prevState.visibility }));
   }
   render() {
     const text = "Hello and fuck you";
