@@ -6,15 +6,39 @@ class TodoApp extends React.Component {
     this.handleAddTodos = this.handleAddTodos.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.state = {
-      title: "This is a todo app",
-      subTitle: "Hello there!",
-      todos: props.todos
+      todos: []
     };
   }
 
+  componentDidMount() {
+    console.log("====================================");
+    console.log("fetching data");
+    console.log("====================================");
+    console.log(this.state.todos);
+    const json = localStorage.getItem("todos");
+    if (json) {
+      // if this json exist instead of null, than we will read from it, otherwise don't
+      const todos = JSON.parse(json); // this is an array
+      this.setState(() => ({ todos: todos }));
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.todos.length !== this.state.todos.length) {
+      const json_array = JSON.stringify(this.state.todos);
+      localStorage.setItem("todos", json_array);
+      console.log("====================================");
+      console.log("saving data");
+      console.log("====================================");
+    }
+  }
+  componentWillUnmount() {
+    console.log("====================================");
+    console.log("componentWillUnmount!");
+    console.log("====================================");
+  }
   //handleDeleteTodos
   handleDeleteTodos() {
-    this.setState(() => ({ todos: [1, 2, 3] }));
+    localStorage.clear();
   }
 
   handleDeleteTodo(todoToRemove) {
@@ -44,7 +68,7 @@ class TodoApp extends React.Component {
   render() {
     return (
       <div>
-        <Header title={this.state.title} subTitle={this.state.subTitle} />
+        <Header title={this.props.title} subTitle={this.props.subTitle} />
         <ActionButton
           hasOptions={this.state.todos.length > 0}
           handlePick={this.handlePick}
@@ -65,7 +89,8 @@ class TodoApp extends React.Component {
 }
 
 TodoApp.defaultProps = {
-  todos: []
+  title: "This is a todo app",
+  subTitle: "Hello there!"
 };
 
 // class Header extends React.Component {
@@ -186,43 +211,61 @@ class AddTodo extends React.Component {
 // }
 
 const RemoveAllTodo = props => {
-  console.log("In here!");
   return <button onClick={props.handleDeleteTodos}>Remove All Todos</button>;
 };
 
 const jsx = (
   <div>
-    <TodoApp todos={["Test1", "Test2", "Test3"]} />
-    {/* <TodoApp /> */}
+    {/* <TodoApp todos={["Test1", "Test2", "Test3"]} /> */}
+    <TodoApp />
   </div>
 );
 
-class InvisibleApp extends React.Component {
+ReactDOM.render(jsx, document.getElementById("todoApp"));
+
+class Counter extends React.Component {
   constructor(props) {
     super(props);
-    this.buttonClick = this.buttonClick.bind(this);
+    this.handlePlusOne = this.handlePlusOne.bind(this);
+    this.handleMinusOne = this.handleMinusOne.bind(this);
+    this.handleReset = this.handleReset.bind(this);
     this.state = {
-      text: "Hello and fuck you",
-      visibility: false
+      count: 0
     };
   }
-  buttonClick() {
-    this.setState(prevState => ({ visibility: !prevState.visibility }));
+  componentDidMount() {
+    const result = parseInt(localStorage.getItem("count"));
+    if (!isNaN(result)) {
+      this.setState(() => ({ count: result }));
+    }
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.count !== this.state.count) {
+      localStorage.setItem("count", this.state.count);
+      console.log("Save succeed!");
+    }
+  }
+  handlePlusOne() {
+    this.setState(prevState => ({ count: prevState.count + 1 }));
+  }
+  handleMinusOne() {
+    this.setState(prevState => ({ count: prevState.count - 1 }));
+  }
+
+  handleReset() {
+    this.setState(() => ({ count: 0 }));
+  }
+
   render() {
-    const text = "Hello and fuck you";
-    let visibility = false;
     return (
       <div>
-        <h1>Invisible App</h1>
-        <button onClick={this.buttonClick}>
-          {this.state.visibility === true ? "Hide" : "Show"} detail
-        </button>
-        <h2>{this.state.visibility === true ? this.state.text : ""}</h2>
+        <h1>Count: {this.state.count}</h1>
+        <button onClick={this.handlePlusOne}>+1</button>
+        <button onClick={this.handleMinusOne}>-1</button>
+        <button onClick={this.handleReset}>Reset</button>
       </div>
     );
   }
 }
 
-ReactDOM.render(jsx, document.getElementById("todoApp"));
-ReactDOM.render(<InvisibleApp />, document.getElementById("invisibleApp"));
+ReactDOM.render(<Counter />, document.getElementById("countApp"));

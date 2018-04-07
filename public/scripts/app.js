@@ -21,22 +21,51 @@ var TodoApp = function (_React$Component) {
     _this.handleAddTodos = _this.handleAddTodos.bind(_this);
     _this.handlePick = _this.handlePick.bind(_this);
     _this.state = {
-      title: "This is a todo app",
-      subTitle: "Hello there!",
-      todos: props.todos
+      todos: []
     };
     return _this;
   }
 
-  //handleDeleteTodos
-
-
   _createClass(TodoApp, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log("====================================");
+      console.log("fetching data");
+      console.log("====================================");
+      console.log(this.state.todos);
+      var json = localStorage.getItem("todos");
+      if (json) {
+        // if this json exist instead of null, than we will read from it, otherwise don't
+        var todos = JSON.parse(json); // this is an array
+        this.setState(function () {
+          return { todos: todos };
+        });
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.todos.length !== this.state.todos.length) {
+        var json_array = JSON.stringify(this.state.todos);
+        localStorage.setItem("todos", json_array);
+        console.log("====================================");
+        console.log("saving data");
+        console.log("====================================");
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      console.log("====================================");
+      console.log("componentWillUnmount!");
+      console.log("====================================");
+    }
+    //handleDeleteTodos
+
+  }, {
     key: "handleDeleteTodos",
     value: function handleDeleteTodos() {
-      this.setState(function () {
-        return { todos: [1, 2, 3] };
-      });
+      localStorage.clear();
     }
   }, {
     key: "handleDeleteTodo",
@@ -75,7 +104,7 @@ var TodoApp = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        React.createElement(Header, { title: this.state.title, subTitle: this.state.subTitle }),
+        React.createElement(Header, { title: this.props.title, subTitle: this.props.subTitle }),
         React.createElement(ActionButton, {
           hasOptions: this.state.todos.length > 0,
           handlePick: this.handlePick
@@ -97,7 +126,8 @@ var TodoApp = function (_React$Component) {
 }(React.Component);
 
 TodoApp.defaultProps = {
-  todos: []
+  title: "This is a todo app",
+  subTitle: "Hello there!"
 };
 
 // class Header extends React.Component {
@@ -255,7 +285,6 @@ var AddTodo = function (_React$Component2) {
 // }
 
 var RemoveAllTodo = function RemoveAllTodo(props) {
-  console.log("In here!");
   return React.createElement(
     "button",
     { onClick: props.handleDeleteTodos },
@@ -266,62 +295,99 @@ var RemoveAllTodo = function RemoveAllTodo(props) {
 var jsx = React.createElement(
   "div",
   null,
-  React.createElement(TodoApp, { todos: ["Test1", "Test2", "Test3"] })
+  React.createElement(TodoApp, null)
 );
 
-var InvisibleApp = function (_React$Component3) {
-  _inherits(InvisibleApp, _React$Component3);
+ReactDOM.render(jsx, document.getElementById("todoApp"));
 
-  function InvisibleApp(props) {
-    _classCallCheck(this, InvisibleApp);
+var Counter = function (_React$Component3) {
+  _inherits(Counter, _React$Component3);
 
-    var _this3 = _possibleConstructorReturn(this, (InvisibleApp.__proto__ || Object.getPrototypeOf(InvisibleApp)).call(this, props));
+  function Counter(props) {
+    _classCallCheck(this, Counter);
 
-    _this3.buttonClick = _this3.buttonClick.bind(_this3);
+    var _this3 = _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).call(this, props));
+
+    _this3.handlePlusOne = _this3.handlePlusOne.bind(_this3);
+    _this3.handleMinusOne = _this3.handleMinusOne.bind(_this3);
+    _this3.handleReset = _this3.handleReset.bind(_this3);
     _this3.state = {
-      text: "Hello and fuck you",
-      visibility: false
+      count: 0
     };
     return _this3;
   }
 
-  _createClass(InvisibleApp, [{
-    key: "buttonClick",
-    value: function buttonClick() {
+  _createClass(Counter, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var result = parseInt(localStorage.getItem("count"));
+      if (!isNaN(result)) {
+        this.setState(function () {
+          return { count: result };
+        });
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.count !== this.state.count) {
+        localStorage.setItem("count", this.state.count);
+        console.log("Save succeed!");
+      }
+    }
+  }, {
+    key: "handlePlusOne",
+    value: function handlePlusOne() {
       this.setState(function (prevState) {
-        return { visibility: !prevState.visibility };
+        return { count: prevState.count + 1 };
+      });
+    }
+  }, {
+    key: "handleMinusOne",
+    value: function handleMinusOne() {
+      this.setState(function (prevState) {
+        return { count: prevState.count - 1 };
+      });
+    }
+  }, {
+    key: "handleReset",
+    value: function handleReset() {
+      this.setState(function () {
+        return { count: 0 };
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var text = "Hello and fuck you";
-      var visibility = false;
       return React.createElement(
         "div",
         null,
         React.createElement(
           "h1",
           null,
-          "Invisible App"
+          "Count: ",
+          this.state.count
         ),
         React.createElement(
           "button",
-          { onClick: this.buttonClick },
-          this.state.visibility === true ? "Hide" : "Show",
-          " detail"
+          { onClick: this.handlePlusOne },
+          "+1"
         ),
         React.createElement(
-          "h2",
-          null,
-          this.state.visibility === true ? this.state.text : ""
+          "button",
+          { onClick: this.handleMinusOne },
+          "-1"
+        ),
+        React.createElement(
+          "button",
+          { onClick: this.handleReset },
+          "Reset"
         )
       );
     }
   }]);
 
-  return InvisibleApp;
+  return Counter;
 }(React.Component);
 
-ReactDOM.render(jsx, document.getElementById("todoApp"));
-ReactDOM.render(React.createElement(InvisibleApp, null), document.getElementById("invisibleApp"));
+ReactDOM.render(React.createElement(Counter, null), document.getElementById("countApp"));
