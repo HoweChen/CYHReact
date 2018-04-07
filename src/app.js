@@ -1,94 +1,3 @@
-class Header extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>{this.props.title}</h1>
-        <h2>{this.props.subTitle}</h2>
-      </div>
-    );
-  }
-}
-
-class ActionButton extends React.Component {
-  render() {
-    return (
-      <div>
-        <button
-          disabled={!this.props.hasOptions}
-          onClick={this.props.handlePick}
-        >
-          What should I do?
-        </button>
-      </div>
-    );
-  }
-}
-
-class Options extends React.Component {
-  render() {
-    return (
-      <ol>
-        {this.props.todos.map(todo => {
-          return <li key={this.props.todos.indexOf(todo)}>{todo}</li>;
-        })}
-      </ol>
-      // <div>
-      //   {this.props.todos.map(todo => {
-      //     return <p key={this.props.todos.indexOf(todo)}>{todo}</p>;
-      //   })}
-      // </div>
-    );
-  }
-}
-
-class AddTodo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.state = {
-      error: undefined
-    };
-  }
-
-  onFormSubmit(event) {
-    event.preventDefault();
-    const todo = event.target.elements.option.value.trim();
-    const error = this.props.handleAddTodos(todo);
-    this.setState(() => {
-      return {
-        error: error
-      };
-    });
-  }
-  render() {
-    return (
-      <div>
-        {this.state.error && <p>{this.state.error}</p>}
-        <form onSubmit={this.onFormSubmit}>
-          <input type="text" name="option" />
-          <button>Add todo</button>
-        </form>
-      </div>
-    );
-  }
-}
-
-class RemoveAllTodo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDeleteTodos = this.handleDeleteTodos.bind(this);
-  }
-
-  handleDeleteTodos(e) {
-    // e.preventDefault();
-    this.props.handleDeleteTodos;
-  }
-
-  render() {
-    return <button onClick={this.handleDeleteTodos}>Remove all todos</button>;
-  }
-}
-
 class TodoApp extends React.Component {
   constructor(props) {
     super(props);
@@ -104,7 +13,6 @@ class TodoApp extends React.Component {
 
   //handleDeleteTodos
   handleDeleteTodos() {
-    console.log("here");
     this.setState(() => {
       return {
         todos: []
@@ -143,13 +51,96 @@ class TodoApp extends React.Component {
           todos={this.state.todos}
           handlePick={this.handlePick}
         />
-        <Options todos={this.state.todos} />
+
+        <Options
+          todos={this.state.todos}
+          handleAddTodos={this.handleDeleteTodos}
+        />
         <AddTodo
           handleAddTodos={this.handleAddTodos}
           todos={this.state.todos}
         />
         <RemoveAllTodo handleDeleteTodos={this.handleDeleteTodos} />
       </div>
+    );
+  }
+}
+
+class Header extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>{this.props.title}</h1>
+        <h2>{this.props.subTitle}</h2>
+      </div>
+    );
+  }
+}
+
+class ActionButton extends React.Component {
+  render() {
+    return (
+      <div>
+        <button
+          disabled={!this.props.hasOptions}
+          onClick={this.props.handlePick}
+        >
+          What should I do?
+        </button>
+      </div>
+    );
+  }
+}
+
+class Options extends React.Component {
+  render() {
+    return (
+      <ol>
+        {this.props.todos.map((todo, index) => {
+          return <li key={index}>{todo}</li>;
+        })}
+      </ol>
+    );
+  }
+}
+
+class AddTodo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.state = {
+      error: undefined
+    };
+  }
+
+  onFormSubmit(event) {
+    event.preventDefault();
+    const todo = event.target.elements.option.value.trim();
+    const error = this.props.handleAddTodos(todo);
+    this.setState(() => {
+      return {
+        error: error
+      };
+    });
+  }
+  render() {
+    return (
+      <div>
+        {this.state.error && <p>{this.state.error}</p>}
+        <form onSubmit={this.onFormSubmit}>
+          <input type="text" name="option" />
+          <button>Add todo</button>
+        </form>
+      </div>
+    );
+  }
+}
+
+class RemoveAllTodo extends React.Component {
+  render() {
+    console.log(this.props);
+    return (
+      <button onClick={this.props.handleDeleteTodos}>Remove All Todos</button>
     );
   }
 }
