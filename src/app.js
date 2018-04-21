@@ -1,11 +1,6 @@
-import subtraction, { square, addition } from "./utils.js";
-import canDrink, { isAdult } from "./person.js";
+import React from "react";
+import ReactDom from "react-dom";
 
-console.log("====================================");
-console.log("App js is running");
-console.log("====================================");
-console.log(square(4));
-console.log(addition(1, 2));
-console.log(isAdult(15));
-console.log(subtraction(20, 18));
-console.log(canDrink(22));
+const template = <p>This is jsx from webpack</p>;
+
+ReactDom.render(template, document.getElementById("app"));
