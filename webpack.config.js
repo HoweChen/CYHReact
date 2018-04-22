@@ -3,10 +3,6 @@ const path = require("path");
 module.exports = {
   mode: "production",
   entry: "./src/app.js",
-  output: {
-    path: path.join(__dirname, "public"),
-    filename: "bundle.js"
-  },
   module: {
     rules: [
       {
@@ -15,5 +11,13 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
+  },
+  devtool: "cheap-module-eval-source-map",
+  devServer: {
+    contentBase: path.join(__dirname, "public")
+  },
+  output: {
+    path: path.join(__dirname, "public"),
+    filename: "bundle.js"
   }
 };
