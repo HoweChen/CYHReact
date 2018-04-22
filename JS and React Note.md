@@ -13,3 +13,9 @@ constructor(props){
 <div className="save" onClick={()=>this.handleClick}>Save</div>
 ```
  如果用第一种 会在每次点击时通过 bind 创建一个新的方法，所以一般用 2 3 两种情况，显示调用 bind() 只是为了保证 this 值。
+
+ #webpack-dev-server
+ 在这个项目里我们用了webpack，输出一个`bundle.js`，然而实际上如果我们后面用了`webpack-dev-server`我们会发现，你即使删除了这个`bundle.js`，这个网页/服务器依然可以正常运行，这是因为用了`webpack-dev-server`的时候，生成的`bundle.js`文件被保存在内存当中。
+ 
+
+如果我们要重新生成 `bundle.js`的时候，就重新`build`的一次就好了
