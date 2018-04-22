@@ -12,6 +12,7 @@ module.exports = {
       }
     ]
   },
+  // use source map to make debug easier
   devtool: "cheap-module-eval-source-map",
   devServer: {
     contentBase: path.join(__dirname, "public")
