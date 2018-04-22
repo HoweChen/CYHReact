@@ -7,16 +7,19 @@ import ActionButton from "./ActionButton";
 import RemoveAllTodo from "./RemoveAllTodo";
 
 class TodoApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDeleteTodos = this.handleAddTodos.bind(this);
-    this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
-    this.handleAddTodos = this.handleAddTodos.bind(this);
-    this.handlePick = this.handlePick.bind(this);
-    this.state = {
-      todos: []
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.handleDeleteTodos = this.handleAddTodos.bind(this);
+  //   this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
+  //   this.handleAddTodos = this.handleAddTodos.bind(this);
+  //   this.handlePick = this.handlePick.bind(this);
+  //   this.state = {
+  //     todos: []
+  //   };
+  // }
+  state = {
+    todos: []
+  };
 
   componentDidMount() {
     console.log("====================================");
@@ -45,17 +48,17 @@ class TodoApp extends React.Component {
     console.log("====================================");
   }
   //handleDeleteTodos
-  handleDeleteTodos() {
+  handleDeleteTodos = () => {
     localStorage.clear();
-  }
+  };
 
-  handleDeleteTodo(todoToRemove) {
+  handleDeleteTodo = todoToRemove => {
     this.setState(prevState => ({
       todos: prevState.todos.filter(todo => todoToRemove !== todo)
     }));
-  }
+  };
 
-  handleAddTodos(todo) {
+  handleAddTodos = todo => {
     if (!todo) {
       alert("Please input something before adding!");
       return "Enter invalid value.";
@@ -64,14 +67,14 @@ class TodoApp extends React.Component {
     } else {
       this.setState(prevState => ({ todos: prevState.todos.concat([todo]) }));
     }
-  }
+  };
 
-  handlePick() {
+  handlePick = () => {
     let decision = Math.floor(Math.random() * this.state.todos.length);
     alert(
       "You should do:" + (decision + 1) + ". " + this.state.todos[decision]
     );
-  }
+  };
 
   render() {
     return (

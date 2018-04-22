@@ -1,20 +1,23 @@
 import React from "react";
 
 class AddTodo extends React.Component {
+  state = {
+    error: undefined
+  };
   constructor(props) {
     super(props);
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.state = {
-      error: undefined
-    };
+    // this.onFormSubmit = this.onFormSubmit.bind(this);
+    // this.state={
+    //   error:undefined
+    // }
   }
 
-  onFormSubmit(event) {
-    event.preventDefault();
-    const todo = event.target.elements.option.value.trim();
+  onFormSubmit = e => {
+    e.preventDefault();
+    const todo = e.target.elements.option.value.trim();
     const error = this.props.handleAddTodos(todo);
     this.setState(() => ({ error: error }));
-  }
+  };
   render() {
     return (
       <div>
