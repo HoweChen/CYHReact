@@ -5,6 +5,7 @@ import Todos from "./Todos";
 import Header from "./Header";
 import ActionButton from "./ActionButton";
 import RemoveAllTodo from "./RemoveAllTodo";
+import TodoModal from "./TodoModal";
 
 class TodoApp extends React.Component {
   // constructor(props) {
@@ -18,7 +19,8 @@ class TodoApp extends React.Component {
   //   };
   // }
   state = {
-    todos: []
+    todos: [],
+    selected: undefined // at first it would be undefined, once the value is changed in to the new random todo item, it would be transferred to todomodal
   };
 
   componentDidMount() {
@@ -71,9 +73,16 @@ class TodoApp extends React.Component {
 
   handlePick = () => {
     let decision = Math.floor(Math.random() * this.state.todos.length);
-    alert(
-      "You should do:" + (decision + 1) + ". " + this.state.todos[decision]
-    );
+    // alert(
+    //   "You should do:" + (decision + 1) + ". " + this.state.todos[decision]
+    // );
+    this.setState(() => ({ selected: this.state.todos[decision] }));
+  };
+
+  handleCloseModal = () => {
+    this.setState(() => ({
+      selected: undefined
+    }));
   };
 
   render() {
@@ -93,6 +102,10 @@ class TodoApp extends React.Component {
           todos={this.state.todos}
         />
         <RemoveAllTodo handleDeleteTodos={this.handleDeleteTodos} />
+        <TodoModal
+          selectedTodo={this.state.selected}
+          handleCloseModal={this.handleCloseModal}
+        />
       </div>
     );
   }
