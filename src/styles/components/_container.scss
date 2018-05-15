@@ -1,0 +1,5 @@
+.container {
+    max-width: 60rem;
+    margin: 0 auto; // some light padding to let the div have some minor space when resize the window
+    padding: 0 $m-size;
+}

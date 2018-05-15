@@ -89,19 +89,21 @@ class TodoApp extends React.Component {
     return (
       <div>
         <Header title={this.props.title} subTitle={this.props.subTitle} />
-        <ActionButton
-          hasOptions={this.state.todos.length > 0}
-          handlePick={this.handlePick}
-        />
-        <Todos
-          todos={this.state.todos}
-          handleDeleteTodo={this.handleDeleteTodo}
-        />
-        <AddTodo
-          handleAddTodos={this.handleAddTodos}
-          todos={this.state.todos}
-        />
-        <RemoveAllTodo handleDeleteTodos={this.handleDeleteTodos} />
+        <div className="container">
+          <ActionButton
+            hasOptions={this.state.todos.length > 0}
+            handlePick={this.handlePick}
+          />
+          <Todos
+            todos={this.state.todos}
+            handleDeleteTodo={this.handleDeleteTodo}
+          />
+          <AddTodo
+            handleAddTodos={this.handleAddTodos}
+            todos={this.state.todos}
+          />
+          <RemoveAllTodo handleDeleteTodos={this.handleDeleteTodos} />
+        </div>
         <TodoModal
           selectedTodo={this.state.selected}
           handleCloseModal={this.handleCloseModal}
