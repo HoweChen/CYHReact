@@ -8,6 +8,7 @@ const Todos = props => {
           <li key={index}>
             {todo}
             <button
+              className="button button--link"
               onClick={e => {
                 props.handleDeleteTodo(todo);
               }}

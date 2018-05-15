@@ -24,7 +24,7 @@ class AddTodo extends React.Component {
         {this.state.error && <p>{this.state.error}</p>}
         <form onSubmit={this.onFormSubmit}>
           <input type="text" name="option" />
-          <button>Add todo</button>
+          <button className="button">Add todo</button>
         </form>
       </div>
     );
