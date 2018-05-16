@@ -1,0 +1,23 @@
+// Add option error
+.add-option-error {
+    color: $off-white;
+    font-style: italic;
+    padding: 0 $m-size;
+    margin: $m-size 0 0 0;
+}
+
+.add-todo {
+    display: flex; // margin-top: $m-size;
+    // margin-bottom: $m-size;
+}
+
+.add-todo__input {
+    background: $dark-blue;
+    border: none;
+    color: $off-white;
+    border-bottom: .3rem solid darken($dark-blue, 10%);
+    flex-grow: 1;
+    margin-right: $s-size;
+    margin-left: $s-size;
+    padding: $s-size;
+}

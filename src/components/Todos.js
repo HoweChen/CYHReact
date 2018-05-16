@@ -12,7 +12,9 @@ const Todos = props => {
       {props.todos.map((todo, index) => {
         return (
           <div key={index} class="todo">
-            {todo}
+            <p className="todo__text">
+              {index + 1}. {todo}
+            </p>
             <button
               className="button button--link"
               onClick={e => {

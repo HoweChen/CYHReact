@@ -21,9 +21,11 @@ class AddTodo extends React.Component {
   render() {
     return (
       <div>
-        {this.state.error && <p>{this.state.error}</p>}
-        <form onSubmit={this.onFormSubmit}>
-          <input type="text" name="option" />
+        {this.state.error && (
+          <p className="add-option-error">{this.state.error}</p>
+        )}
+        <form className="add-todo" onSubmit={this.onFormSubmit}>
+          <input type="text" name="option" className="add-todo__input" />
           <button className="button">Add todo</button>
         </form>
       </div>
