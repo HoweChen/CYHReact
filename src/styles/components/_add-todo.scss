@@ -1,5 +1,5 @@
 // Add option error
-.add-option-error {
+.add-todo-error {
     color: $off-white;
     font-style: italic;
     padding: 0 $m-size;
@@ -17,7 +17,16 @@
     color: $off-white;
     border-bottom: .3rem solid darken($dark-blue, 10%);
     flex-grow: 1;
-    margin-right: $s-size;
-    margin-left: $s-size;
+    margin: $s-size $s-size $s-size $s-size;
     padding: $s-size;
+}
+
+// when the screen size less then 45rem, the included stuff would work
+@media (max-width: $desktop-breakpoint) {
+    .add-todo {
+        flex-direction: column;
+    }
+    .add-todo__input {
+        margin-bottom: $s-size;
+    }
 }
