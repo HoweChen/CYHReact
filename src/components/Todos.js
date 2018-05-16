@@ -2,10 +2,16 @@ import React from "react";
 
 const Todos = props => {
   return (
-    <ol>
+    <div>
+      <div className="widget-header">
+        <h3 className="widget-header__title">Your todos:</h3>
+      </div>
+      {props.todos.length === 0 && (
+        <p className="widget__message">Please add something todo!</p>
+      )}
       {props.todos.map((todo, index) => {
         return (
-          <li key={index}>
+          <div key={index} class="todo">
             {todo}
             <button
               className="button button--link"
@@ -15,10 +21,10 @@ const Todos = props => {
             >
               Remove
             </button>
-          </li>
+          </div>
         );
       })}
-    </ol>
+    </div>
   );
 };
 
