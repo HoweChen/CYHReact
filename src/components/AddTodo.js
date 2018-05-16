@@ -22,7 +22,7 @@ class AddTodo extends React.Component {
     return (
       <div>
         {this.state.error && (
-          <p className="add-option-error">{this.state.error}</p>
+          <p className="add-todo-error">{this.state.error}</p>
         )}
         <form className="add-todo" onSubmit={this.onFormSubmit}>
           <input type="text" name="option" className="add-todo__input" />
