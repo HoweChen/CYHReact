@@ -11,10 +11,16 @@ const TodoModal = props => {
       isOpen={!!props.selectedTodo}
       contentLabel="Selected Option"
       onRequestClose={props.handleCloseModal}
+      closeTimeoutMS={200}
+      className="modal"
     >
-      <h3>Selected Todo</h3>
-      {props.selectedTodo && <p>{props.selectedTodo}</p>}
-      <button onClick={props.handleCloseModal}>Okay</button>
+      <h3 className="modal__title">Selected Todo</h3>
+      {props.selectedTodo && (
+        <p className="modal__body">{props.selectedTodo}</p>
+      )}
+      <button onClick={props.handleCloseModal} className="button">
+        Okay
+      </button>
     </Modal>
     // <p>Test</p>
   );
