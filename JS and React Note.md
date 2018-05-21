@@ -32,3 +32,27 @@ this.handleClick=this.handleClick.bind(this)
 1.  `BrowswerRouter` 中的 `Route` 只能在同一个  `div` 下面，不能用两个 `div` 去存不同的 `Route`.
 2.  `Route` 当中 `exact` 的使用，是为了防止  路由子网址的时候，父网址也会被匹配到的情况
 3.  要让  客户端来路由而不是服务端路由，要在 webpack 里设置 `historyApiFallback: true`
+
+# This in Javascript
+
+```javascript
+var name = "the window";
+var object = {
+  name: "my object",
+  getNameFunc: function() {
+    // console.log(this);
+    var that = this;
+    return function() {
+      //   console.log(this);
+      return that.name + "__" + this.name;
+    };
+  }
+};
+
+var test = object.getNameFunc();
+
+console.log(test());
+console.log(this.name);
+```
+
+当 `this` 在 `object` 的第一级`function()` 中，`this` 指向的是这个函数的调用者，也就是这个 `object`，当这个 `function()` 中还有一个 `function()` 的时候，第二层的 `function()` 中的 `this` 指向的是 `global scope`
