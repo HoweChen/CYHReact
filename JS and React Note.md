@@ -56,3 +56,41 @@ console.log(this.name);
 ```
 
 当 `this` 在 `object` 的第一级`function()` 中，`this` 指向的是这个函数的调用者，也就是这个 `object`，当这个 `function()` 中还有一个 `function()` 的时候，第二层的 `function()` 中的 `this` 指向的是 `global scope`
+
+# 闭包
+
+作者：朴灵链接：https://www.zhihu.com/question/27712980/answer/37768023
+来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+关于闭包的概念，其实就是来自函数式语言。
+
+```javascript
+var a = function() {
+  var test = {};
+  setTimeout(function() {
+    console.log(test);
+  }, 1000);
+};
+```
+
+上面的例子中，test 在 a 中定义，但在 setTimeout 的参数（函数）中对它保持了引用。当 a 被执行了，尽管 a 已经执行完（已经执行完），理论上来说 a 这个函数执行过程中产生的变量、对象都可以被销毁。但 test 由于被引用，所以不能随这个函数执行结束而被销毁，直到定时器里的函数被执行掉。另外再来个例子：
+
+```javascript
+var obj = function() {
+  var a = "";
+  return {
+    set: function(val) {
+      a = val;
+    },
+    get: function() {
+      return a;
+    }
+  };
+};
+
+var b = obj();
+b.set("new val");
+b.get();
+```
+
+以上 obj 这个函数在执行完之后理论上 函数体内东西都应该被回收掉。但它执行后的返回值 b 具有 set 和 get 方法。这两个方法里对 a 保持了引用，所以 obj 执行过程中产生的 a 就不会销毁。直到 b 先被回收，这个 a 才会回收。引用维基百科：闭包（Closure）是词法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。参照例子 理解下吧。
