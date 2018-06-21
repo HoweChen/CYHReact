@@ -20,12 +20,38 @@ const AddExpensePage = () => {
   );
 };
 
+const EditExpensePage = () => {
+  return (
+    <div>
+      <p>This is from my edit expense component</p>
+    </div>
+  );
+};
+
+const HelpExpensePage = () => {
+  return (
+    <div>
+      <p>This is from my help expense component</p>
+    </div>
+  );
+};
+
+const NotFoundPage = () => (
+  <div>
+    <p>Not found!</p>
+  </div>
+);
+
 const routes = (
   <BrowserRouter>
-    <div>
+    <Switch>
+      {/* found the route url from top to bottom, so the bottom would be the 404 */}
       <Route path="/" component={ExpenseDashboardPage} exact={true} />
       <Route path="/create" component={AddExpensePage} />
-    </div>
+      <Route path="/edit" component={EditExpensePage} />
+      <Route path="/help" component={HelpExpensePage} />
+      {/* <Route component={NotFoundPage} /> */}
+    </Switch>
   </BrowserRouter>
 );
 
