@@ -4,7 +4,7 @@ class InvisibleApp extends React.Component {
     this.buttonClick = this.buttonClick.bind(this);
     this.state = {
       text: "Hello and fuck you",
-      visibility: false
+      visibility: false,
     };
   }
   buttonClick() {
